@@ -16,6 +16,7 @@ body{
   overflow:hidden;
 }
 
+/* COVER */
 #cover{
   position:fixed;
   width:100%;
@@ -27,14 +28,15 @@ body{
   flex-direction:column;
   z-index:999;
 }
-
 #cover button{
   padding:15px 30px;
   background:gold;
   border:none;
   border-radius:30px;
+  cursor:pointer;
 }
 
+/* SCENE */
 .scene{
   position:absolute;
   width:100%;
@@ -44,6 +46,7 @@ body{
 }
 .active{opacity:1;}
 
+/* BACKGROUND */
 .bg{
   position:absolute;
   width:100%;
@@ -53,6 +56,7 @@ body{
   filter:brightness(0.5);
 }
 
+/* TEXT */
 .text{
   position:absolute;
   top:50%;
@@ -60,13 +64,15 @@ body{
   text-align:center;
   transform:translateY(-50%);
   font-size:28px;
+  padding:0 20px;
 }
-
 .ending{
   top:auto;
   bottom:5%;
+  transform:none;
 }
 
+/* FORM */
 input,select,textarea{
   width:85%;
   max-width:400px;
@@ -74,50 +80,64 @@ input,select,textarea{
   margin:6px;
   border-radius:10px;
   border:none;
+  outline:none;
 }
 
+/* BUTTON */
 .btn{
   padding:12px 25px;
-  background:gold;
+  background:linear-gradient(45deg,gold,#ffd700);
   border:none;
   border-radius:20px;
   cursor:pointer;
+  box-shadow:0 0 10px rgba(255,215,0,0.5);
+}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .text{font-size:20px;}
 }
 </style>
 </head>
 
 <body>
 
+<!-- COVER -->
 <div id="cover">
   <h1 style="color:gold;">PALAGAN BUBAT</h1>
   <button onclick="start()">Buka Undangan</button>
 </div>
 
+<!-- AUDIO -->
 <audio id="music" loop>
   <source src="./assets/audio/music.mp3">
 </audio>
 
+<!-- SCENE 1 -->
 <div class="scene" id="s1">
   <div class="bg" style="background-image:url('./assets/img/bg1.jpeg')"></div>
   <div class="text">Di tanah Pasundan…</div>
 </div>
 
+<!-- SCENE 2 -->
 <div class="scene" id="s2">
   <div class="bg" style="background-image:url('./assets/img/bg2.jpeg')"></div>
   <div class="text">Sebuah kisah besar kembali dihidupkan…</div>
 </div>
 
+<!-- SCENE 3 -->
 <div class="scene" id="s3">
   <div class="bg" style="background-image:url('./assets/img/bg3.jpeg')"></div>
   <div class="text">Tentang kehormatan dan sejarah…</div>
 </div>
 
+<!-- SCENE 4 -->
 <div class="scene" id="s4">
   <div class="bg" style="background-image:url('./assets/img/poster.jpeg');background-size:contain;background-color:black;"></div>
   <div class="text">PALAGAN BUBAT</div>
 </div>
 
-<!-- RSVP FINAL -->
+<!-- RSVP WHATSAPP -->
 <div class="scene" id="s5">
   <div class="bg" style="background-image:url('./assets/img/bg2.jpeg')"></div>
 
@@ -126,35 +146,28 @@ input,select,textarea{
     <div>
       13 Mei 2026<br>
       19.00 WIB<br>
-      Gedung Kesenian Sunan Ambu ISBI Bandung
+      ISBI Bandung
     </div>
 
     <br>
 
-    <form 
-      action="https://script.google.com/macros/s/AKfycbzL_E3pT3J7QL_nJvmi4WIWU5b5a_aP7QDg2mrAACG_gGoGPrdhgWfT9jVyUHP58aGjjg/exec"
-      method="POST"
-      target="hidden_iframe"
-      onsubmit="return sukses();"
-    >
+    <input id="nama" placeholder="Nama">
+    <input id="asal" placeholder="Asal (Instansi)">
+    <input id="contact" placeholder="Contact Person">
 
-      <input name="nama" placeholder="Nama" required>
-      <input name="asal" placeholder="Asal (Instansi)" required>
-      <input name="contact" placeholder="Contact Person" required>
+    <select id="hadir">
+      <option value="">Pilih Kehadiran</option>
+      <option>Hadir</option>
+      <option>Tidak Hadir</option>
+    </select>
 
-      <select name="hadir" required>
-        <option value="">Pilih Kehadiran</option>
-        <option>Hadir</option>
-        <option>Tidak Hadir</option>
-      </select>
+    <textarea id="pesan" placeholder="Pesan (Optional)"></textarea>
 
-      <textarea name="pesan" placeholder="Pesan (Optional)"></textarea>
+    <br>
 
-      <br>
-      <button type="submit" class="btn">Kirim Kehadiran</button>
-    </form>
-
-    <iframe name="hidden_iframe" style="display:none;"></iframe>
+    <button onclick="kirimWA()" class="btn">
+      Kirim via WhatsApp
+    </button>
 
   </div>
 </div>
@@ -185,9 +198,31 @@ function start(){
   next();
 }
 
-function sukses(){
-  alert("Terima kasih 🙏 Kehadiran Anda sudah tercatat.");
-  return true;
+/* WHATSAPP */
+function kirimWA(){
+  let nama=document.getElementById("nama").value;
+  let asal=document.getElementById("asal").value;
+  let contact=document.getElementById("contact").value;
+  let hadir=document.getElementById("hadir").value;
+  let pesan=document.getElementById("pesan").value;
+
+  if(nama===""||asal===""||contact===""||hadir===""){
+    alert("Mohon lengkapi data!");
+    return;
+  }
+
+  let text =
+`Konfirmasi Kehadiran Palagan Bubat
+
+Nama: ${nama}
+Asal: ${asal}
+Contact: ${contact}
+Kehadiran: ${hadir}
+Pesan: ${pesan}`;
+
+  let url = "https://wa.me/62895368595060?text=" + encodeURIComponent(text);
+
+  window.open(url, "_blank");
 }
 </script>
 

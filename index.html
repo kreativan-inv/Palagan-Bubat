@@ -74,28 +74,31 @@ body {
 /* ENDING */
 .ending {
   top:auto;
-  bottom:10%;
+  bottom:8%;
   transform:none;
 }
 
 /* FORM */
 input, select, textarea {
-  width:80%;
+  width:85%;
+  max-width:400px;
   padding:10px;
-  margin:5px;
+  margin:6px;
   border-radius:10px;
   border:none;
+  outline:none;
 }
 
 /* BUTTON */
 .btn-glow {
   margin-top:10px;
   padding:12px 25px;
-  background:gold;
+  background:linear-gradient(45deg,gold,#ffd700);
   color:black;
   border-radius:20px;
   border:none;
   cursor:pointer;
+  box-shadow:0 0 15px rgba(255,215,0,0.6);
 }
 
 /* MOBILE */
@@ -157,16 +160,19 @@ input, select, textarea {
 
     <br>
 
-    <input type="text" id="nama" placeholder="Nama Anda">
+    <input type="text" id="nama" placeholder="Nama">
+
+    <input type="text" id="asal" placeholder="Asal (Instansi, dll)">
+
+    <input type="text" id="contact" placeholder="Contact Person">
 
     <select id="hadir">
+      <option value="">-- Pilih Kehadiran --</option>
       <option value="Hadir">Hadir</option>
       <option value="Tidak Hadir">Tidak Hadir</option>
     </select>
 
-    <input type="number" id="jumlah" placeholder="Jumlah Orang">
-
-    <textarea id="pesan" placeholder="Pesan"></textarea>
+    <textarea id="pesan" placeholder="Pesan (Optional)"></textarea>
 
     <br>
 
@@ -205,22 +211,24 @@ function start(){
 /* RSVP GOOGLE FORM */
 function kirimRSVP(){
   let nama = document.getElementById("nama").value;
+  let asal = document.getElementById("asal").value;
+  let contact = document.getElementById("contact").value;
   let hadir = document.getElementById("hadir").value;
-  let jumlah = document.getElementById("jumlah").value;
   let pesan = document.getElementById("pesan").value;
 
-  if(nama === ""){
-    alert("Nama wajib diisi!");
+  if(nama === "" || asal === "" || contact === "" || hadir === ""){
+    alert("Mohon lengkapi semua data wajib!");
     return;
   }
 
-  let url = "https://forms.gle/1HaVQLZso5TBey1H7";
+  let url = "https://docs.google.com/forms/d/e/1FAIpQLScPLG-0qHTuQaM-I3-wT_SBdRf1aopQlla0bYP6Q51kFh2Qww/formResponse";
 
   let data = new FormData();
-  data.append("entry.111111", nama);
-  data.append("entry.222222", hadir);
-  data.append("entry.333333", jumlah);
-  data.append("entry.444444", pesan);
+  data.append("entry.2063437378", nama);
+  data.append("entry.121974123", asal);
+  data.append("entry.1203427236", contact);
+  data.append("entry.186602110", hadir);
+  data.append("entry.entry.605305232", pesan);
 
   fetch(url, {
     method: "POST",
@@ -229,6 +237,12 @@ function kirimRSVP(){
   });
 
   alert("Terima kasih! Konfirmasi berhasil dikirim.");
+
+  document.getElementById("nama").value="";
+  document.getElementById("asal").value="";
+  document.getElementById("contact").value="";
+  document.getElementById("hadir").value="";
+  document.getElementById("pesan").value="";
 }
 </script>
 

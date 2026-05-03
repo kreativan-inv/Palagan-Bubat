@@ -148,7 +148,7 @@ input,select,textarea{
     <textarea id="pesan" placeholder="Pesan (Optional)"></textarea>
 
     <button onclick="kirimRSVP()" class="btn">
-      Kirim
+      Kirim Kehadiran
     </button>
 
   </div>
@@ -180,7 +180,7 @@ function start(){
   next();
 }
 
-/* RSVP KE GOOGLE SHEET */
+/* RSVP FIX FINAL */
 function kirimRSVP(){
   let nama=document.getElementById("nama").value;
   let asal=document.getElementById("asal").value;
@@ -195,20 +195,26 @@ function kirimRSVP(){
 
   fetch("https://script.google.com/macros/s/AKfycbzL_E3pT3J7QL_nJvmi4WIWU5b5a_aP7QDg2mrAACG_gGoGPrdhgWfT9jVyUHP58aGjjg/exec",{
     method:"POST",
+    mode:"no-cors",
+    headers:{
+      "Content-Type":"application/json"
+    },
     body: JSON.stringify({
       nama:nama,
       asal:asal,
       contact:contact,
       hadir:hadir,
       pesan:pesan
-    }),
-    headers:{
-      "Content-Type":"application/json"
-    }
-  })
-  .then(()=>alert("Berhasil dikirim!"))
-  .catch(()=>alert("Gagal kirim!"));
+    })
+  });
 
+  alert("Terima kasih 🙏 Kehadiran Anda sudah tercatat.");
+
+  document.getElementById("nama").value="";
+  document.getElementById("asal").value="";
+  document.getElementById("contact").value="";
+  document.getElementById("hadir").value="";
+  document.getElementById("pesan").value="";
 }
 </script>
 

@@ -16,7 +16,6 @@ body{
   overflow:hidden;
 }
 
-/* COVER */
 #cover{
   position:fixed;
   width:100%;
@@ -34,31 +33,26 @@ body{
   background:gold;
   border:none;
   border-radius:30px;
-  cursor:pointer;
 }
 
-/* SCENE */
 .scene{
   position:absolute;
   width:100%;
   height:100%;
   opacity:0;
-  transition:opacity 2s ease;
+  transition:opacity 2s;
 }
-.active{ opacity:1; }
+.active{opacity:1;}
 
-/* BG */
 .bg{
   position:absolute;
   width:100%;
   height:100%;
   background-size:cover;
   background-position:center;
-  filter:brightness(0.45);
-  transform:scale(1.1);
+  filter:brightness(0.5);
 }
 
-/* TEXT */
 .text{
   position:absolute;
   top:50%;
@@ -66,18 +60,14 @@ body{
   text-align:center;
   transform:translateY(-50%);
   font-size:28px;
-  padding:0 20px;
-  text-shadow:0 0 20px black;
 }
 
-/* END */
 .ending{
   top:auto;
-  bottom:6%;
+  bottom:5%;
   transform:none;
 }
 
-/* FORM */
 input,select,textarea{
   width:85%;
   max-width:400px;
@@ -85,42 +75,33 @@ input,select,textarea{
   margin:6px;
   border-radius:10px;
   border:none;
-  outline:none;
 }
 
-/* BUTTON */
-.btn-glow{
-  margin-top:10px;
+.btn{
   padding:12px 25px;
-  background:linear-gradient(45deg,gold,#ffd700);
-  color:black;
-  border-radius:20px;
+  background:gold;
   border:none;
+  border-radius:20px;
   cursor:pointer;
-  box-shadow:0 0 15px rgba(255,215,0,0.6);
 }
 
-/* MOBILE */
 @media(max-width:768px){
-  .text{ font-size:20px; }
+  .text{font-size:20px;}
 }
 </style>
 </head>
 
 <body>
 
-<!-- COVER -->
 <div id="cover">
   <h1 style="color:gold;">PALAGAN BUBAT</h1>
   <button onclick="start()">Buka Undangan</button>
 </div>
 
-<!-- AUDIO -->
 <audio id="music" loop>
   <source src="./assets/audio/music.mp3">
 </audio>
 
-<!-- SCENE -->
 <div class="scene" id="s1">
   <div class="bg" style="background-image:url('./assets/img/bg1.jpeg')"></div>
   <div class="text">Di tanah Pasundan…</div>
@@ -137,42 +118,37 @@ input,select,textarea{
 </div>
 
 <div class="scene" id="s4">
-  <div class="bg" style="background-image:url('./assets/img/poster.jpeg'); background-size:contain; background-color:black;"></div>
+  <div class="bg" style="background-image:url('./assets/img/poster.jpeg');background-size:contain;background-color:black;"></div>
   <div class="text">PALAGAN BUBAT</div>
 </div>
 
-<!-- RSVP -->
 <div class="scene" id="s5">
   <div class="bg" style="background-image:url('./assets/img/bg2.jpeg')"></div>
 
   <div class="text ending">
 
-    <div style="font-size:22px;">
+    <div>
       13 Mei 2026<br>
       19.00 WIB<br>
-      G.K Sunan Ambu ISBI Bandung
-    </div>
-
-    <div style="margin-top:10px; font-style:italic;">
-      Kami menantikan kehadiran Anda
+      ISBI Bandung
     </div>
 
     <br>
 
-    <input type="text" id="nama" placeholder="Nama">
-    <input type="text" id="asal" placeholder="Asal (Instansi, dll)">
-    <input type="text" id="contact" placeholder="Contact Person">
+    <input id="nama" placeholder="Nama">
+    <input id="asal" placeholder="Asal (Instansi)">
+    <input id="contact" placeholder="Contact Person">
 
     <select id="hadir">
-      <option value="">-- Pilih Kehadiran --</option>
-      <option value="Hadir">Hadir</option>
-      <option value="Tidak Hadir">Tidak Hadir</option>
+      <option value="">Pilih Kehadiran</option>
+      <option>Hadir</option>
+      <option>Tidak Hadir</option>
     </select>
 
     <textarea id="pesan" placeholder="Pesan (Optional)"></textarea>
 
-    <button onclick="kirimRSVP()" class="btn-glow">
-      Kirim Konfirmasi
+    <button onclick="kirimRSVP()" class="btn">
+      Kirim
     </button>
 
   </div>
@@ -183,18 +159,18 @@ function start(){
   document.getElementById("cover").style.display="none";
   document.getElementById("music").play().catch(()=>{});
 
-  let scenes=["s1","s2","s3","s4","s5"];
+  let s=["s1","s2","s3","s4","s5"];
   let i=0;
 
   function next(){
     if(i>0){
-      document.getElementById(scenes[i-1]).classList.remove("active");
+      document.getElementById(s[i-1]).classList.remove("active");
     }
 
-    if(i<scenes.length){
-      document.getElementById(scenes[i]).classList.add("active");
+    if(i<s.length){
+      document.getElementById(s[i]).classList.add("active");
 
-      if(i<scenes.length-1){
+      if(i<s.length-1){
         i++;
         setTimeout(next,5000);
       }
@@ -204,7 +180,7 @@ function start(){
   next();
 }
 
-/* RSVP FINAL */
+/* RSVP KE GOOGLE SHEET */
 function kirimRSVP(){
   let nama=document.getElementById("nama").value;
   let asal=document.getElementById("asal").value;
@@ -213,32 +189,26 @@ function kirimRSVP(){
   let pesan=document.getElementById("pesan").value;
 
   if(nama===""||asal===""||contact===""||hadir===""){
-    alert("Mohon lengkapi semua data!");
+    alert("Mohon lengkapi data!");
     return;
   }
 
-  let url="https://docs.google.com/forms/d/e/1FAIpQLScPLG-0qHTuQaM-I3-wT_SBdRf1aopQlla0bYP6Q51kFh2Qww/formResponse";
-
-  let data=new FormData();
-  data.append("entry.2063437378",nama);
-  data.append("entry.121974123",asal);
-  data.append("entry.1203427236",contact);
-  data.append("entry.186602110",hadir);
-  data.append("entry.605305232",pesan);
-
-  fetch(url,{
+  fetch("https://script.google.com/macros/s/AKfycbzL_E3pT3J7QL_nJvmi4WIWU5b5a_aP7QDg2mrAACG_gGoGPrdhgWfT9jVyUHP58aGjjg/exec",{
     method:"POST",
-    mode:"no-cors",
-    body:data
-  });
+    body: JSON.stringify({
+      nama:nama,
+      asal:asal,
+      contact:contact,
+      hadir:hadir,
+      pesan:pesan
+    }),
+    headers:{
+      "Content-Type":"application/json"
+    }
+  })
+  .then(()=>alert("Berhasil dikirim!"))
+  .catch(()=>alert("Gagal kirim!"));
 
-  alert("Terima kasih! Konfirmasi berhasil dikirim.");
-
-  document.getElementById("nama").value="";
-  document.getElementById("asal").value="";
-  document.getElementById("contact").value="";
-  document.getElementById("hadir").value="";
-  document.getElementById("pesan").value="";
 }
 </script>
 

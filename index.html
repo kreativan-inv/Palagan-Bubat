@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Palagan Bubat</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+body {
+  margin:0;
+  background:black;
+  color:white;
+  font-family:'Cinzel', serif;
+  overflow:hidden;
+}
+
+/* COVER */
+#cover {
+  position:fixed;
+  width:100%;
+  height:100vh;
+  background:black;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  z-index:999;
+}
+
+#cover button {
+  padding:15px 30px;
+  background:gold;
+  border:none;
+  border-radius:30px;
+  cursor:pointer;
+}
+
+/* SCENE */
+.scene {
+  position:absolute;
+  width:100%;
+  height:100%;
+  opacity:0;
+  transition:opacity 2s ease;
+}
+
+.active { opacity:1; }
+
+/* BACKGROUND */
+.bg {
+  position:absolute;
+  width:100%;
+  height:100%;
+  background-size:cover;
+  background-repeat:no-repeat;
+  background-position:center;
+  filter:brightness(0.45) contrast(1.1);
+  transform:scale(1.08);
+  transition:transform 6s ease;
+  background-color:black; /* fallback */
+}
+
+.active .bg {
+  transform:scale(1.15);
+}
+
+/* TEXT */
+.text {
+  position:absolute;
+  top:50%;
+  width:100%;
+  text-align:center;
+  transform:translateY(-50%);
+  font-size:28px;
+  text-shadow:0 0 20px black;
+}
+
+/* MOBILE FIX */
+@media (max-width:768px){
+  .text { font-size:20px; padding:0 15px; }
+}
+
+/* BUTTON */
+.btn {
+  display:inline-block;
+  margin-top:20px;
+  padding:10px 20px;
+  background:gold;
+  color:black;
+  border-radius:20px;
+  text-decoration:none;
+}
+</style>
+</head>
+
+<body>
+
+<!-- COVER -->
+<div id="cover">
+  <h1 style="color:gold;">PALAGAN BUBAT</h1>
+  <button onclick="start()">Buka Undangan</button>
+</div>
+
+<!-- AUDIO -->
+<audio id="music" loop>
+  <source src="./assets/audio/music.mp3" type="audio/mp3">
+</audio>
+
+<!-- SCENES -->
+
+<div class="scene" id="s1">
+  <div class="bg" style="background-image:url('./assets/img/bg1.jpg')"></div>
+  <div class="text">Di tanah Pasundan…</div>
+</div>
+
+<div class="scene" id="s2">
+  <div class="bg" style="background-image:url('./assets/img/bg2.jpg')"></div>
+  <div class="text">Sebuah kisah besar kembali dihidupkan…</div>
+</div>
+
+<div class="scene" id="s3">
+  <div class="bg" style="background-image:url('./assets/img/bg3.jpg')"></div>
+  <div class="text">Tentang kehormatan… pengorbanan… dan sejarah…</div>
+</div>
+
+<div class="scene" id="s4">
+  <div class="bg" style="
+    background-image:url('./assets/img/poster.jpg');
+    background-size:contain;
+    background-position:center;
+  "></div>
+  <div class="text">PALAGAN BUBAT</div>
+</div>
+
+<div class="scene" id="s5">
+  <div class="bg" style="background-image:url('./assets/img/bg2.jpg')"></div>
+  <div class="text">
+    13 Mei 2026<br>
+    G.K Sunan Ambu ISBI Bandung<br><br>
+    <a href="https://wa.me/6281234567890" class="btn">Konfirmasi Kehadiran</a>
+  </div>
+</div>
+
+<script>
+function start(){
+  document.getElementById("cover").style.display="none";
+
+  // autoplay fix
+  let music = document.getElementById("music");
+  music.play().catch(()=>{});
+
+  let scenes = ["s1","s2","s3","s4","s5"];
+  let i = 0;
+
+  function next(){
+    if(i>0){
+      document.getElementById(scenes[i-1]).classList.remove("active");
+    }
+    if(i<scenes.length){
+      document.getElementById(scenes[i]).classList.add("active");
+      i++;
+      setTimeout(next, 5000);
+    }
+  }
+
+  next();
+}
+</script>
+
+</body>
+</html>

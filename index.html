@@ -81,19 +81,13 @@ body{
 
 /* BUTTON */
 .btn{
-  padding:14px 28px;
-  background:linear-gradient(45deg,gold,#ffd700);
+  padding:16px 32px;
+  background:linear-gradient(45deg,#00c6ff,#0072ff);
   border:none;
-  border-radius:25px;
+  border-radius:30px;
   cursor:pointer;
   font-size:16px;
-  box-shadow:0 0 15px rgba(255,215,0,0.6);
-}
-
-/* RSVP BUTTON */
-.btn-rsvp{
-  background:linear-gradient(45deg,#00c6ff,#0072ff);
-  box-shadow:0 0 15px rgba(0,114,255,0.6);
+  box-shadow:0 0 20px rgba(0,114,255,0.6);
 }
 
 /* RESPONSIVE */
@@ -150,19 +144,13 @@ body{
     <div>
       13 Mei 2026<br>
       19.00 WIB<br>
-      Gedung Kesenian Sunan Ambu ISBI Bandung
+      Gedung Kesesian Sunan Ambu ISBI Bandung
     </div>
 
     <br><br>
 
-    <button onclick="kirimWA()" class="btn">
-      Konfirmasi via WhatsApp
-    </button>
-
-    <br><br>
-
-    <button onclick="bukaRSVP()" class="btn btn-rsvp">
-      Isi RSVP Form
+    <button onclick="bukaRSVP()" class="btn">
+      Isi RSVP Sekarang
     </button>
 
   </div>
@@ -198,13 +186,6 @@ function start(){
   }
 
   next();
-}
-
-/* WHATSAPP */
-function kirimWA(){
-  let text = "Halo, saya ingin konfirmasi kehadiran untuk acara Palagan Bubat pada 13 Mei 2026 di ISBI Bandung.";
-  let url = "https://wa.me/62895368595060?text=" + encodeURIComponent(text);
-  window.open(url, "_blank");
 }
 
 /* RSVP FORM */

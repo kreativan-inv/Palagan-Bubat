@@ -15,7 +15,6 @@ body{
   font-family:'Cinzel', serif;
   overflow:hidden;
 }
-
 #cover{
   position:fixed;
   width:100%;
@@ -27,14 +26,12 @@ body{
   flex-direction:column;
   z-index:999;
 }
-
 #cover button{
   padding:15px 30px;
   background:gold;
   border:none;
   border-radius:30px;
 }
-
 .scene{
   position:absolute;
   width:100%;
@@ -43,7 +40,6 @@ body{
   transition:opacity 2s;
 }
 .active{opacity:1;}
-
 .bg{
   position:absolute;
   width:100%;
@@ -52,7 +48,6 @@ body{
   background-position:center;
   filter:brightness(0.5);
 }
-
 .text{
   position:absolute;
   top:50%;
@@ -61,13 +56,10 @@ body{
   transform:translateY(-50%);
   font-size:28px;
 }
-
 .ending{
   top:auto;
   bottom:5%;
-  transform:none;
 }
-
 input,select,textarea{
   width:85%;
   max-width:400px;
@@ -76,17 +68,12 @@ input,select,textarea{
   border-radius:10px;
   border:none;
 }
-
 .btn{
   padding:12px 25px;
   background:gold;
   border:none;
   border-radius:20px;
   cursor:pointer;
-}
-
-@media(max-width:768px){
-  .text{font-size:20px;}
 }
 </style>
 </head>
@@ -122,6 +109,7 @@ input,select,textarea{
   <div class="text">PALAGAN BUBAT</div>
 </div>
 
+<!-- 🔥 RSVP FORM LANGSUNG -->
 <div class="scene" id="s5">
   <div class="bg" style="background-image:url('./assets/img/bg2.jpeg')"></div>
 
@@ -135,21 +123,26 @@ input,select,textarea{
 
     <br>
 
-    <input id="nama" placeholder="Nama">
-    <input id="asal" placeholder="Asal (Instansi)">
-    <input id="contact" placeholder="Contact Person">
+    <form action="https://script.google.com/macros/s/AKfycbzL_E3pT3J7QL_nJvmi4WIWU5b5a_aP7QDg2mrAACG_gGoGPrdhgWfT9jVyUHP58aGjjg/exec" method="POST" target="hidden_iframe" onsubmit="return sukses();">
 
-    <select id="hadir">
-      <option value="">Pilih Kehadiran</option>
-      <option>Hadir</option>
-      <option>Tidak Hadir</option>
-    </select>
+      <input name="nama" placeholder="Nama" required>
+      <input name="asal" placeholder="Asal (Instansi)" required>
+      <input name="contact" placeholder="Contact Person" required>
 
-    <textarea id="pesan" placeholder="Pesan (Optional)"></textarea>
+      <select name="hadir" required>
+        <option value="">Pilih Kehadiran</option>
+        <option>Hadir</option>
+        <option>Tidak Hadir</option>
+      </select>
 
-    <button onclick="kirimRSVP()" class="btn">
-      Kirim Kehadiran
-    </button>
+      <textarea name="pesan" placeholder="Pesan (Optional)"></textarea>
+
+      <br>
+      <button type="submit" class="btn">Kirim Kehadiran</button>
+    </form>
+
+    <!-- iframe supaya tidak reload -->
+    <iframe name="hidden_iframe" style="display:none;"></iframe>
 
   </div>
 </div>
@@ -180,41 +173,9 @@ function start(){
   next();
 }
 
-/* RSVP FIX FINAL */
-function kirimRSVP(){
-  let nama=document.getElementById("nama").value;
-  let asal=document.getElementById("asal").value;
-  let contact=document.getElementById("contact").value;
-  let hadir=document.getElementById("hadir").value;
-  let pesan=document.getElementById("pesan").value;
-
-  if(nama===""||asal===""||contact===""||hadir===""){
-    alert("Mohon lengkapi data!");
-    return;
-  }
-
-  fetch("https://script.google.com/macros/s/AKfycbzL_E3pT3J7QL_nJvmi4WIWU5b5a_aP7QDg2mrAACG_gGoGPrdhgWfT9jVyUHP58aGjjg/exec",{
-    method:"POST",
-    mode:"no-cors",
-    headers:{
-      "Content-Type":"application/json"
-    },
-    body: JSON.stringify({
-      nama:nama,
-      asal:asal,
-      contact:contact,
-      hadir:hadir,
-      pesan:pesan
-    })
-  });
-
+function sukses(){
   alert("Terima kasih 🙏 Kehadiran Anda sudah tercatat.");
-
-  document.getElementById("nama").value="";
-  document.getElementById("asal").value="";
-  document.getElementById("contact").value="";
-  document.getElementById("hadir").value="";
-  document.getElementById("pesan").value="";
+  return true;
 }
 </script>
 

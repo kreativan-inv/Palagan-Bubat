@@ -68,29 +68,19 @@ body{
 }
 .ending{
   top:auto;
-  bottom:5%;
+  bottom:8%;
   transform:none;
-}
-
-/* FORM */
-input,select,textarea{
-  width:85%;
-  max-width:400px;
-  padding:10px;
-  margin:6px;
-  border-radius:10px;
-  border:none;
-  outline:none;
 }
 
 /* BUTTON */
 .btn{
-  padding:12px 25px;
+  padding:14px 28px;
   background:linear-gradient(45deg,gold,#ffd700);
   border:none;
-  border-radius:20px;
+  border-radius:25px;
   cursor:pointer;
-  box-shadow:0 0 10px rgba(255,215,0,0.5);
+  font-size:16px;
+  box-shadow:0 0 15px rgba(255,215,0,0.6);
 }
 
 /* RESPONSIVE */
@@ -137,7 +127,7 @@ input,select,textarea{
   <div class="text">PALAGAN BUBAT</div>
 </div>
 
-<!-- RSVP WHATSAPP -->
+<!-- FINAL SCENE (NO FORM – DIRECT WA) -->
 <div class="scene" id="s5">
   <div class="bg" style="background-image:url('./assets/img/bg2.jpeg')"></div>
 
@@ -149,24 +139,10 @@ input,select,textarea{
       ISBI Bandung
     </div>
 
-    <br>
-
-    <input id="nama" placeholder="Nama">
-    <input id="asal" placeholder="Asal (Instansi)">
-    <input id="contact" placeholder="Contact Person">
-
-    <select id="hadir">
-      <option value="">Pilih Kehadiran</option>
-      <option>Hadir</option>
-      <option>Tidak Hadir</option>
-    </select>
-
-    <textarea id="pesan" placeholder="Pesan (Optional)"></textarea>
-
-    <br>
+    <br><br>
 
     <button onclick="kirimWA()" class="btn">
-      Kirim via WhatsApp
+      Konfirmasi via WhatsApp
     </button>
 
   </div>
@@ -198,30 +174,10 @@ function start(){
   next();
 }
 
-/* WHATSAPP */
+/* DIRECT WHATSAPP */
 function kirimWA(){
-  let nama=document.getElementById("nama").value;
-  let asal=document.getElementById("asal").value;
-  let contact=document.getElementById("contact").value;
-  let hadir=document.getElementById("hadir").value;
-  let pesan=document.getElementById("pesan").value;
-
-  if(nama===""||asal===""||contact===""||hadir===""){
-    alert("Mohon lengkapi data!");
-    return;
-  }
-
-  let text =
-`Konfirmasi Kehadiran Palagan Bubat
-
-Nama: ${nama}
-Asal: ${asal}
-Contact: ${contact}
-Kehadiran: ${hadir}
-Pesan: ${pesan}`;
-
+  let text = "Halo, saya ingin konfirmasi kehadiran untuk acara Palagan Bubat.";
   let url = "https://wa.me/62895368595060?text=" + encodeURIComponent(text);
-
   window.open(url, "_blank");
 }
 </script>

@@ -8,7 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
-body {
+body{
   margin:0;
   background:black;
   color:white;
@@ -17,7 +17,7 @@ body {
 }
 
 /* COVER */
-#cover {
+#cover{
   position:fixed;
   width:100%;
   height:100vh;
@@ -29,7 +29,7 @@ body {
   z-index:999;
 }
 
-#cover button {
+#cover button{
   padding:15px 30px;
   background:gold;
   border:none;
@@ -38,18 +38,17 @@ body {
 }
 
 /* SCENE */
-.scene {
+.scene{
   position:absolute;
   width:100%;
   height:100%;
   opacity:0;
   transition:opacity 2s ease;
 }
+.active{ opacity:1; }
 
-.active { opacity:1; }
-
-/* BACKGROUND */
-.bg {
+/* BG */
+.bg{
   position:absolute;
   width:100%;
   height:100%;
@@ -60,7 +59,7 @@ body {
 }
 
 /* TEXT */
-.text {
+.text{
   position:absolute;
   top:50%;
   width:100%;
@@ -71,15 +70,15 @@ body {
   text-shadow:0 0 20px black;
 }
 
-/* ENDING */
-.ending {
+/* END */
+.ending{
   top:auto;
-  bottom:8%;
+  bottom:6%;
   transform:none;
 }
 
 /* FORM */
-input, select, textarea {
+input,select,textarea{
   width:85%;
   max-width:400px;
   padding:10px;
@@ -90,7 +89,7 @@ input, select, textarea {
 }
 
 /* BUTTON */
-.btn-glow {
+.btn-glow{
   margin-top:10px;
   padding:12px 25px;
   background:linear-gradient(45deg,gold,#ffd700);
@@ -102,8 +101,8 @@ input, select, textarea {
 }
 
 /* MOBILE */
-@media (max-width:768px){
-  .text { font-size:20px; }
+@media(max-width:768px){
+  .text{ font-size:20px; }
 }
 </style>
 </head>
@@ -121,7 +120,7 @@ input, select, textarea {
   <source src="./assets/audio/music.mp3">
 </audio>
 
-<!-- SCENES -->
+<!-- SCENE -->
 <div class="scene" id="s1">
   <div class="bg" style="background-image:url('./assets/img/bg1.jpeg')"></div>
   <div class="text">Di tanah Pasundan…</div>
@@ -142,7 +141,7 @@ input, select, textarea {
   <div class="text">PALAGAN BUBAT</div>
 </div>
 
-<!-- RSVP FINAL -->
+<!-- RSVP -->
 <div class="scene" id="s5">
   <div class="bg" style="background-image:url('./assets/img/bg2.jpeg')"></div>
 
@@ -161,9 +160,7 @@ input, select, textarea {
     <br>
 
     <input type="text" id="nama" placeholder="Nama">
-
     <input type="text" id="asal" placeholder="Asal (Instansi, dll)">
-
     <input type="text" id="contact" placeholder="Contact Person">
 
     <select id="hadir">
@@ -173,8 +170,6 @@ input, select, textarea {
     </select>
 
     <textarea id="pesan" placeholder="Pesan (Optional)"></textarea>
-
-    <br>
 
     <button onclick="kirimRSVP()" class="btn-glow">
       Kirim Konfirmasi
@@ -188,19 +183,20 @@ function start(){
   document.getElementById("cover").style.display="none";
   document.getElementById("music").play().catch(()=>{});
 
-  let scenes = ["s1","s2","s3","s4","s5"];
-  let i = 0;
+  let scenes=["s1","s2","s3","s4","s5"];
+  let i=0;
 
   function next(){
     if(i>0){
       document.getElementById(scenes[i-1]).classList.remove("active");
     }
-    if(i < scenes.length){
+
+    if(i<scenes.length){
       document.getElementById(scenes[i]).classList.add("active");
 
-      if(i < scenes.length-1){
+      if(i<scenes.length-1){
         i++;
-        setTimeout(next, 5000);
+        setTimeout(next,5000);
       }
     }
   }
@@ -208,32 +204,32 @@ function start(){
   next();
 }
 
-/* RSVP GOOGLE FORM */
+/* RSVP FINAL */
 function kirimRSVP(){
-  let nama = document.getElementById("nama").value;
-  let asal = document.getElementById("asal").value;
-  let contact = document.getElementById("contact").value;
-  let hadir = document.getElementById("hadir").value;
-  let pesan = document.getElementById("pesan").value;
+  let nama=document.getElementById("nama").value;
+  let asal=document.getElementById("asal").value;
+  let contact=document.getElementById("contact").value;
+  let hadir=document.getElementById("hadir").value;
+  let pesan=document.getElementById("pesan").value;
 
-  if(nama === "" || asal === "" || contact === "" || hadir === ""){
-    alert("Mohon lengkapi semua data wajib!");
+  if(nama===""||asal===""||contact===""||hadir===""){
+    alert("Mohon lengkapi semua data!");
     return;
   }
 
-  let url = "https://docs.google.com/forms/d/e/1FAIpQLScPLG-0qHTuQaM-I3-wT_SBdRf1aopQlla0bYP6Q51kFh2Qww/formResponse";
+  let url="https://docs.google.com/forms/d/e/1FAIpQLScPLG-0qHTuQaM-I3-wT_SBdRf1aopQlla0bYP6Q51kFh2Qww/formResponse";
 
-  let data = new FormData();
-  data.append("entry.2063437378", nama);
-  data.append("entry.121974123", asal);
-  data.append("entry.1203427236", contact);
-  data.append("entry.186602110", hadir);
-  data.append("entry.entry.605305232", pesan);
+  let data=new FormData();
+  data.append("entry.2063437378",nama);
+  data.append("entry.121974123",asal);
+  data.append("entry.1203427236",contact);
+  data.append("entry.186602110",hadir);
+  data.append("entry.605305232",pesan);
 
-  fetch(url, {
-    method: "POST",
-    mode: "no-cors",
-    body: data
+  fetch(url,{
+    method:"POST",
+    mode:"no-cors",
+    body:data
   });
 
   alert("Terima kasih! Konfirmasi berhasil dikirim.");

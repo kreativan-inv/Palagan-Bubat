@@ -68,6 +68,7 @@ body {
   transform:translateY(-50%);
   font-size:28px;
   padding:0 20px;
+  text-shadow:0 0 20px black;
 }
 
 /* ENDING */
@@ -96,6 +97,11 @@ input, select, textarea {
   border:none;
   cursor:pointer;
 }
+
+/* MOBILE */
+@media (max-width:768px){
+  .text { font-size:20px; }
+}
 </style>
 </head>
 
@@ -114,43 +120,52 @@ input, select, textarea {
 
 <!-- SCENES -->
 <div class="scene" id="s1">
-  <div class="bg" style="background-image:url('./assets/img/bg1.jpeg')"></div>
+  <div class="bg" style="background-image:url('./assets/img/bg1.jpg')"></div>
   <div class="text">Di tanah Pasundan…</div>
 </div>
 
 <div class="scene" id="s2">
-  <div class="bg" style="background-image:url('./assets/img/bg2.jpeg')"></div>
+  <div class="bg" style="background-image:url('./assets/img/bg2.jpg')"></div>
   <div class="text">Sebuah kisah besar kembali dihidupkan…</div>
 </div>
 
 <div class="scene" id="s3">
-  <div class="bg" style="background-image:url('./assets/img/bg3.jpeg')"></div>
+  <div class="bg" style="background-image:url('./assets/img/bg3.jpg')"></div>
   <div class="text">Tentang kehormatan dan sejarah…</div>
 </div>
 
 <div class="scene" id="s4">
-  <div class="bg" style="background-image:url('./assets/img/poster.jpeg'); background-size:contain; background-color:black;"></div>
+  <div class="bg" style="background-image:url('./assets/img/poster.jpg'); background-size:contain; background-color:black;"></div>
   <div class="text">PALAGAN BUBAT</div>
 </div>
 
-<!-- RSVP SCENE -->
+<!-- RSVP FINAL -->
 <div class="scene" id="s5">
-  <div class="bg" style="background-image:url('./assets/img/bg2.jpeg')"></div>
+  <div class="bg" style="background-image:url('./assets/img/bg2.jpg')"></div>
 
   <div class="text ending">
-    <div>
+
+    <div style="font-size:22px;">
       13 Mei 2026<br>
+      19.00 WIB<br>
       G.K Sunan Ambu ISBI Bandung
+    </div>
+
+    <div style="margin-top:10px; font-style:italic;">
+      Kami menantikan kehadiran Anda
     </div>
 
     <br>
 
     <input type="text" id="nama" placeholder="Nama Anda">
+
     <select id="hadir">
-      <option>Hadir</option>
-      <option>Tidak Hadir</option>
+      <option value="Hadir">Hadir</option>
+      <option value="Tidak Hadir">Tidak Hadir</option>
     </select>
+
     <input type="number" id="jumlah" placeholder="Jumlah Orang">
+
     <textarea id="pesan" placeholder="Pesan"></textarea>
 
     <br>
@@ -158,6 +173,7 @@ input, select, textarea {
     <button onclick="kirimRSVP()" class="btn-glow">
       Kirim Konfirmasi
     </button>
+
   </div>
 </div>
 
@@ -193,7 +209,12 @@ function kirimRSVP(){
   let jumlah = document.getElementById("jumlah").value;
   let pesan = document.getElementById("pesan").value;
 
-  let url = "https://forms.gle/UXv1yXFBwmJJAkQi6";
+  if(nama === ""){
+    alert("Nama wajib diisi!");
+    return;
+  }
+
+  let url = "https://docs.google.com/forms/d/e/FORM_ID/formResponse";
 
   let data = new FormData();
   data.append("entry.111111", nama);
@@ -207,7 +228,7 @@ function kirimRSVP(){
     body: data
   });
 
-  alert("Terima kasih! Data berhasil dikirim.");
+  alert("Terima kasih! Konfirmasi berhasil dikirim.");
 }
 </script>
 

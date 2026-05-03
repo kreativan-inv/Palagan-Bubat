@@ -54,16 +54,9 @@ body {
   width:100%;
   height:100%;
   background-size:cover;
-  background-repeat:no-repeat;
   background-position:center;
-  filter:brightness(0.45) contrast(1.1);
-  transform:scale(1.08);
-  transition:transform 6s ease;
-  background-color:black; /* fallback */
-}
-
-.active .bg {
-  transform:scale(1.15);
+  filter:brightness(0.45);
+  transform:scale(1.1);
 }
 
 /* TEXT */
@@ -74,23 +67,34 @@ body {
   text-align:center;
   transform:translateY(-50%);
   font-size:28px;
-  text-shadow:0 0 20px black;
+  padding:0 20px;
 }
 
-/* MOBILE FIX */
-@media (max-width:768px){
-  .text { font-size:20px; padding:0 15px; }
+/* ENDING */
+.ending {
+  top:auto;
+  bottom:10%;
+  transform:none;
+}
+
+/* FORM */
+input, select, textarea {
+  width:80%;
+  padding:10px;
+  margin:5px;
+  border-radius:10px;
+  border:none;
 }
 
 /* BUTTON */
-.btn {
-  display:inline-block;
-  margin-top:20px;
-  padding:10px 20px;
+.btn-glow {
+  margin-top:10px;
+  padding:12px 25px;
   background:gold;
   color:black;
   border-radius:20px;
-  text-decoration:none;
+  border:none;
+  cursor:pointer;
 }
 </style>
 </head>
@@ -105,11 +109,10 @@ body {
 
 <!-- AUDIO -->
 <audio id="music" loop>
-  <source src="./assets/audio/music.mp3" type="audio/mp3">
+  <source src="./assets/audio/music.mp3">
 </audio>
 
 <!-- SCENES -->
-
 <div class="scene" id="s1">
   <div class="bg" style="background-image:url('./assets/img/bg1.jpeg')"></div>
   <div class="text">Di tanah Pasundan…</div>
@@ -122,34 +125,46 @@ body {
 
 <div class="scene" id="s3">
   <div class="bg" style="background-image:url('./assets/img/bg3.jpeg')"></div>
-  <div class="text">Tentang kehormatan… pengorbanan… dan sejarah…</div>
+  <div class="text">Tentang kehormatan dan sejarah…</div>
 </div>
 
 <div class="scene" id="s4">
-  <div class="bg" style="
-    background-image:url('./assets/img/poster.jpeg');
-    background-size:contain;
-    background-position:center;
-  "></div>
+  <div class="bg" style="background-image:url('./assets/img/poster.jpeg'); background-size:contain; background-color:black;"></div>
   <div class="text">PALAGAN BUBAT</div>
 </div>
 
+<!-- RSVP SCENE -->
 <div class="scene" id="s5">
   <div class="bg" style="background-image:url('./assets/img/bg2.jpeg')"></div>
-  <div class="text">
-    13 Mei 2026<br>
-    G.K Sunan Ambu ISBI Bandung<br><br>
-    <a href="https://wa.me/62895368595060" class="btn">Konfirmasi Kehadiran</a>
+
+  <div class="text ending">
+    <div>
+      13 Mei 2026<br>
+      G.K Sunan Ambu ISBI Bandung
+    </div>
+
+    <br>
+
+    <input type="text" id="nama" placeholder="Nama Anda">
+    <select id="hadir">
+      <option>Hadir</option>
+      <option>Tidak Hadir</option>
+    </select>
+    <input type="number" id="jumlah" placeholder="Jumlah Orang">
+    <textarea id="pesan" placeholder="Pesan"></textarea>
+
+    <br>
+
+    <button onclick="kirimRSVP()" class="btn-glow">
+      Kirim Konfirmasi
+    </button>
   </div>
 </div>
 
 <script>
 function start(){
   document.getElementById("cover").style.display="none";
-
-  // autoplay fix
-  let music = document.getElementById("music");
-  music.play().catch(()=>{});
+  document.getElementById("music").play().catch(()=>{});
 
   let scenes = ["s1","s2","s3","s4","s5"];
   let i = 0;
@@ -158,14 +173,41 @@ function start(){
     if(i>0){
       document.getElementById(scenes[i-1]).classList.remove("active");
     }
-    if(i<scenes.length){
+    if(i < scenes.length){
       document.getElementById(scenes[i]).classList.add("active");
-      i++;
-      setTimeout(next, 5000);
+
+      if(i < scenes.length-1){
+        i++;
+        setTimeout(next, 5000);
+      }
     }
   }
 
   next();
+}
+
+/* RSVP GOOGLE FORM */
+function kirimRSVP(){
+  let nama = document.getElementById("nama").value;
+  let hadir = document.getElementById("hadir").value;
+  let jumlah = document.getElementById("jumlah").value;
+  let pesan = document.getElementById("pesan").value;
+
+  let url = "https://forms.gle/UXv1yXFBwmJJAkQi6";
+
+  let data = new FormData();
+  data.append("entry.111111", nama);
+  data.append("entry.222222", hadir);
+  data.append("entry.333333", jumlah);
+  data.append("entry.444444", pesan);
+
+  fetch(url, {
+    method: "POST",
+    mode: "no-cors",
+    body: data
+  });
+
+  alert("Terima kasih! Data berhasil dikirim.");
 }
 </script>
 

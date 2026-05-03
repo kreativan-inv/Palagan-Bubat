@@ -42,7 +42,7 @@ body{
   width:100%;
   height:100%;
   opacity:0;
-  transition:opacity 2s;
+  transition:opacity 2s ease-in-out;
 }
 .active{opacity:1;}
 
@@ -54,6 +54,12 @@ body{
   background-size:cover;
   background-position:center;
   filter:brightness(0.5);
+  animation:zoom 10s ease-in-out infinite alternate;
+}
+
+@keyframes zoom{
+  from{transform:scale(1);}
+  to{transform:scale(1.1);}
 }
 
 /* TEXT */
@@ -65,6 +71,7 @@ body{
   transform:translateY(-50%);
   font-size:28px;
   padding:0 20px;
+  line-height:1.5;
 }
 .ending{
   top:auto;
@@ -83,9 +90,16 @@ body{
   box-shadow:0 0 15px rgba(255,215,0,0.6);
 }
 
+/* RSVP BUTTON */
+.btn-rsvp{
+  background:linear-gradient(45deg,#00c6ff,#0072ff);
+  box-shadow:0 0 15px rgba(0,114,255,0.6);
+}
+
 /* RESPONSIVE */
 @media(max-width:768px){
   .text{font-size:20px;}
+  .btn{font-size:14px;}
 }
 </style>
 </head>
@@ -127,7 +141,7 @@ body{
   <div class="text">PALAGAN BUBAT</div>
 </div>
 
-<!-- FINAL SCENE (NO FORM – DIRECT WA) -->
+<!-- FINAL SCENE -->
 <div class="scene" id="s5">
   <div class="bg" style="background-image:url('./assets/img/bg2.jpeg')"></div>
 
@@ -143,7 +157,12 @@ body{
 
     <button onclick="kirimWA()" class="btn">
       Konfirmasi via WhatsApp
-      atas nama Nova Eliana
+    </button>
+
+    <br><br>
+
+    <button onclick="bukaRSVP()" class="btn btn-rsvp">
+      Isi RSVP Form
     </button>
 
   </div>
@@ -152,9 +171,13 @@ body{
 <script>
 function start(){
   document.getElementById("cover").style.display="none";
-  document.getElementById("music").play().catch(()=>{});
+
+  let music = document.getElementById("music");
+  music.volume = 0.6;
+  music.play().catch(()=>{});
 
   let s=["s1","s2","s3","s4","s5"];
+  let timing=[4000,5000,5000,6000];
   let i=0;
 
   function next(){
@@ -166,8 +189,10 @@ function start(){
       document.getElementById(s[i]).classList.add("active");
 
       if(i<s.length-1){
-        i++;
-        setTimeout(next,5000);
+        setTimeout(()=>{
+          i++;
+          next();
+        }, timing[i] || 5000);
       }
     }
   }
@@ -175,10 +200,16 @@ function start(){
   next();
 }
 
-/* DIRECT WHATSAPP */
+/* WHATSAPP */
 function kirimWA(){
-  let text = "Halo, saya ingin konfirmasi kehadiran untuk acara Palagan Bubat.";
+  let text = "Halo, saya ingin konfirmasi kehadiran untuk acara Palagan Bubat pada 13 Mei 2026 di ISBI Bandung.";
   let url = "https://wa.me/62895368595060?text=" + encodeURIComponent(text);
+  window.open(url, "_blank");
+}
+
+/* RSVP FORM */
+function bukaRSVP(){
+  let url = "https://docs.google.com/forms/d/e/1FAIpQLScPLG-0qHTuQaM-I3-wT_SBdRf1aopQlla0bYP6Q51kFh2Qww/viewform?usp=dialog";
   window.open(url, "_blank");
 }
 </script>
